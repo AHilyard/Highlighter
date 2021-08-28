@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+
+[[mods]]
+modId="highlighter"
+version="${file.jarVersion}"
+displayName="Highlighter"
+displayURL="https://anthonyhilyard.com/"
+updateJSONURL="https://mc-curse-update-checker.herokuapp.com/521590"
+logoFile="icon.png"
+authors="Grend"
+description="Highlights newly picked-up items in your inventory."
+
+[[dependencies.highlighter]]
+	modId="forge"
+	mandatory=true
+	versionRange="[36,)"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.highlighter]]
+	modId="minecraft"
+	mandatory=true
+	versionRange="[1.16.5]"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.highlighter]]
+	modId="iceberg"
+	mandatory=true
+	versionRange="[1,)"
+	ordering="NONE"
+	side="BOTH"
