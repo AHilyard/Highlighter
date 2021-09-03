@@ -72,7 +72,7 @@ public class Highlighter
 			{
 				InventoryScreen invScreen = (InventoryScreen)mc.screen;
 				Slot slot = invScreen.getSlotUnderMouse();
-				if (slot.getItem() == event.getItemStack())
+				if (slot != null && slot.getItem() == event.getItemStack())
 				{
 					markedSlots.remove(slot.getSlotIndex());
 				}
@@ -82,14 +82,18 @@ public class Highlighter
 
 	public static void renderNewItemMark(MatrixStack matrixStack, Slot slot)
 	{
-		if (markedSlots.contains(slot.getSlotIndex()) && slot.hasItem())
+		Minecraft mc = Minecraft.getInstance();
+		if (!mc.player.isCreative())
 		{
-			render(matrixStack, slot.getItem(), slot.x, slot.y);
-		}
-		else
-		{
-			// If this slot doesn't contain a item, don't display a mark.
-			markedSlots.remove(slot.getSlotIndex());
+			if (markedSlots.contains(slot.getSlotIndex()) && slot.hasItem())
+			{
+				render(matrixStack, slot.getItem(), slot.x, slot.y);
+			}
+			else
+			{
+				// If this slot doesn't contain a item, don't display a mark.
+				markedSlots.remove(slot.getSlotIndex());
+			}
 		}
 	}
 
