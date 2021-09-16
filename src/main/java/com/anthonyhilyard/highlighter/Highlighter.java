@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -38,6 +38,7 @@ public class Highlighter
 		
 		// First see if there is a stack with available space in the player's inventory.
 		int slot = player.inventory.getSlotWithRemainingSpace(item);
+
 		// If not, check for a free slot.
 		if (slot == -1)
 		{
@@ -50,6 +51,11 @@ public class Highlighter
 		{
 			markedSlots.add(slot);
 		}
+	}
+
+	public static void itemClicked(final int slotIndex)
+	{
+		markedSlots.remove(slotIndex);
 	}
 
 	public static void inventoryClosed()
@@ -68,9 +74,9 @@ public class Highlighter
 			// This event can be raised from any sort of tooltip, but we only care about item tooltips 
 			// when the inventory is open, so ensure that is the case.
 			Minecraft mc = Minecraft.getInstance();
-			if (mc.screen != null && mc.screen instanceof InventoryScreen)
+			if (mc.screen != null && mc.screen instanceof ContainerScreen)
 			{
-				InventoryScreen invScreen = (InventoryScreen)mc.screen;
+				ContainerScreen<?> invScreen = (ContainerScreen<?>)mc.screen;
 				Slot slot = invScreen.getSlotUnderMouse();
 				if (slot != null && slot.getItem() == event.getItemStack())
 				{

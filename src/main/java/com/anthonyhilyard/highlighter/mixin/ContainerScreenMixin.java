@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.text.ITextComponent;
 
@@ -24,6 +25,13 @@ public class ContainerScreenMixin extends Screen
 			shift = Shift.AFTER))
 	public void renderSlot(MatrixStack matrixStack, Slot slot, CallbackInfo info)
 	{
-		Highlighter.renderNewItemMark(matrixStack, slot);
+		// Only mark items that are in the player's inventory and hotbar.
+		if (slot.container instanceof PlayerInventory)
+		{
+			if (slot.hasItem() && ((PlayerInventory)slot.container).items.contains(slot.getItem()))
+			{
+				Highlighter.renderNewItemMark(matrixStack, slot);
+			}
+		}
 	}
 }
