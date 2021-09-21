@@ -2,6 +2,9 @@ package com.anthonyhilyard.highlighter;
 
 import com.anthonyhilyard.iceberg.util.ItemColor;
 import com.anthonyhilyard.iceberg.util.Easing;
+import com.anthonyhilyard.iceberg.events.NewItemPickupEvent;
+
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +26,7 @@ import java.util.Set;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class Highlighter
 {
 	public static final ResourceLocation NEW_ITEM_MARKS = new ResourceLocation(Loader.MODID, "textures/gui/newitemmarks.png");
@@ -36,6 +39,20 @@ public class Highlighter
 		PlayerEntity player = event.getPlayer();
 		ItemStack item = event.getItem().getItem();
 		
+		handlePreItemPickup(player, item);
+	}
+
+	@SubscribeEvent
+	public static void newItemPickup(NewItemPickupEvent event)
+	{
+		PlayerEntity player = event.getPlayer();
+		ItemStack item = event.getItemStack();
+
+		handlePreItemPickup(player, item);
+	}
+
+	private static void handlePreItemPickup(PlayerEntity player, ItemStack item)
+	{
 		// First see if there is a stack with available space in the player's inventory.
 		int slot = player.inventory.getSlotWithRemainingSpace(item);
 

@@ -11,7 +11,7 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin({ Container.class })
+@Mixin(Container.class)
 public class ContainerMixin
 {
 	@Inject(method = { "doClick(IILnet/minecraft/inventory/container/ClickType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;" },

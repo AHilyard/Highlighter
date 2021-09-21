@@ -24,7 +24,6 @@ mixin {
 
 minecraft {
 	mappings channel: 'official', version: project.mcVersion
-	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 	runs {
 		client = {
 			properties 'forge.logging.markers': ''
@@ -45,15 +44,13 @@ repositories {
 		name = "CurseMaven"
 		url "https://www.cursemaven.com"
 	}
-	mavenCentral()
 }
-
 
 dependencies {
 	minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
 	annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 
-	compile 'curse.maven:iceberg-520110:3440258'
+	compile 'curse.maven:iceberg-520110:3467189'
 }
 
 jar {

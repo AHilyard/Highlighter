@@ -29,6 +29,6 @@ description="Highlights newly picked-up items in your inventory."
 [[dependencies.highlighter]]
 	modId="iceberg"
 	mandatory=true
-	versionRange="[1,)"
+	versionRange="[1.0.5,)"
 	ordering="NONE"
 	side="BOTH"
