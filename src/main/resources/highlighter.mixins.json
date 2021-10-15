@@ -3,9 +3,9 @@
 	"package": "com.anthonyhilyard.highlighter.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"refmap": "highlighter.refmap.json",
-	"mixins": [
-		"ContainerMixin",
-		"ContainerScreenMixin",
+	"client": [
+		"AbstractContainerMenuMixin",
+		"AbstractContainerScreenMixin",
 		"InventoryScreenMixin"
 	],
 	"injectors": {

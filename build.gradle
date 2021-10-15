@@ -5,7 +5,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
 		classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
 	}
 }
@@ -14,9 +14,9 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 
-archivesBaseName = name + '-' + project.mcVersion
+archivesBaseName = project.name + '-' + project.mcVersion
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 mixin {
 	add sourceSets.main, "${project.name.toLowerCase()}.refmap.json"
@@ -24,7 +24,6 @@ mixin {
 
 minecraft {
 	mappings channel: 'official', version: project.mcVersion
-	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 	runs {
 		client = {
 			properties 'forge.logging.markers': ''
@@ -45,15 +44,14 @@ repositories {
 		name = "CurseMaven"
 		url "https://www.cursemaven.com"
 	}
-	mavenCentral()
 }
-
 
 dependencies {
 	minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
-	annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
-	compile 'curse.maven:iceberg-520110:3440258'
+	compileOnly 'curse.maven:iceberg-520110:3491123'
+	runtimeOnly 'curse.maven:iceberg-520110:3491123'
 }
 
 jar {

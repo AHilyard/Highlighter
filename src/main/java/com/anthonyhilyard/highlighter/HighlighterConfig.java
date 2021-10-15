@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.IConfigEvent;
 
 import com.electronwill.nightconfig.core.Config;
 
@@ -37,7 +37,7 @@ public class HighlighterConfig
 	}
 
 	@SubscribeEvent
-	public static void onLoad(ModConfig.Loading e)
+	public static void onLoad(IConfigEvent e)
 	{
 	}
 }
