@@ -1,0 +1,51 @@
+{
+	"schemaVersion": 1,
+	"id": "highlighter",
+	"version": "${version}",
+
+	"name": "Highlighter",
+	"description": "Highlights newly picked-up items in your inventory.",
+	"authors": [ "Grend" ],
+	"contact": {
+		"homepage": "https://anthonyhilyard.com/",
+		"sources": "https://github.com/AHilyard/Highlighter",
+		"discord": "https://discord.gg/S5NQjbXPnb"
+	},
+
+	"license": "CC BY-NC-ND 4.0",
+	"icon": "icon.png",
+
+	"environment": "client",
+
+	"entrypoints": {
+		"client": [
+			"com.anthonyhilyard.highlighter.Highlighter"
+		]
+	 },
+	"accessWidener": "highlighter.accesswidener",
+
+	"mixins": [
+		"highlighter.mixins.json"
+	],
+
+	"depends": {
+		"fabricloader": ">=0.11.6",
+		"fabric": "*",
+		"minecraft": "1.17.x",
+		"java": ">=16",
+		"cloth-config2": ">=5.0",
+		"iceberg": ">=1.0.17"
+	},
+	"custom": {
+		"modupdater": {
+			"strategy": "curseforge",
+			"projectID": 541329,
+			"strict": false
+		},
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/S5NQjbXPnb"
+			}
+		}
+	}
+}

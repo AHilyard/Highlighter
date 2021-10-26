@@ -2,53 +2,53 @@ package com.anthonyhilyard.highlighter;
 
 import com.anthonyhilyard.iceberg.util.ItemColor;
 import com.anthonyhilyard.iceberg.util.Easing;
-import com.anthonyhilyard.iceberg.events.NewItemPickupEvent;
+import com.anthonyhilyard.iceberg.events.NewItemPickupCallback;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.ChatFormatting;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class Highlighter
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+
+public class Highlighter implements ClientModInitializer
 {
 	public static final ResourceLocation NEW_ITEM_MARKS = new ResourceLocation(Loader.MODID, "textures/gui/newitemmarks.png");
 
 	private static Set<Integer> markedSlots = new HashSet<Integer>(36);
 
-	@SubscribeEvent
-	public static void preItemPickup(EntityItemPickupEvent event)
+	@Override
+	public void onInitializeClient()
 	{
-		Player player = event.getPlayer();
-		ItemStack item = event.getItem().getItem();
-		
-		handlePreItemPickup(player, item);
+		HighlighterConfig.init();
+
+		NewItemPickupCallback.EVENT.register(Highlighter::newItemPickup);
+		ItemTooltipCallback.EVENT.register(Highlighter::onItemTooltip);
 	}
 
-	@SubscribeEvent
-	public static void newItemPickup(NewItemPickupEvent event)
+	public static void newItemPickup(UUID uuid, ItemStack itemStack)
 	{
-		Player player = event.getPlayer();
-		ItemStack item = event.getItemStack();
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.level.getPlayerByUUID(uuid);
 
-		handlePreItemPickup(player, item);
+		handlePreItemPickup(player, itemStack);
 	}
 
 	private static void handlePreItemPickup(Player player, ItemStack item)
@@ -77,16 +77,15 @@ public class Highlighter
 
 	public static void inventoryClosed()
 	{
-		if (HighlighterConfig.INSTANCE.clearOnInventoryClose.get())
+		if (HighlighterConfig.INSTANCE.clearOnInventoryClose)
 		{
 			markedSlots.clear();
 		}
 	}
 
-	@SubscribeEvent
-	public static void onItemTooltip(ItemTooltipEvent event)
+	public static void onItemTooltip(ItemStack stack, TooltipFlag context, List<Component> lines)
 	{
-		if (HighlighterConfig.INSTANCE.clearOnHover.get())
+		if (HighlighterConfig.INSTANCE.clearOnHover)
 		{
 			// This event can be raised from any sort of tooltip, but we only care about item tooltips 
 			// when the inventory is open, so ensure that is the case.
@@ -94,10 +93,10 @@ public class Highlighter
 			if (mc.screen != null && mc.screen instanceof AbstractContainerScreen)
 			{
 				AbstractContainerScreen<?> invScreen = (AbstractContainerScreen<?>)mc.screen;
-				Slot slot = invScreen.getSlotUnderMouse();
-				if (slot != null && slot.getItem() == event.getItemStack())
+				Slot slot = invScreen.hoveredSlot;
+				if (slot != null && slot.getItem() == stack)
 				{
-					markedSlots.remove(slot.getSlotIndex());
+					markedSlots.remove(slot.index);
 				}
 			}
 		}
@@ -108,14 +107,14 @@ public class Highlighter
 		Minecraft mc = Minecraft.getInstance();
 		if (!mc.player.isCreative())
 		{
-			if (markedSlots.contains(slot.getSlotIndex()) && slot.hasItem())
+			if (markedSlots.contains(slot.index) && slot.hasItem())
 			{
 				render(poseStack, slot.getItem(), slot.x, slot.y);
 			}
 			else
 			{
 				// If this slot doesn't contain a item, don't display a mark.
-				markedSlots.remove(slot.getSlotIndex());
+				markedSlots.remove(slot.index);
 			}
 		}
 	}
@@ -132,7 +131,7 @@ public class Highlighter
 		// Default to white so the gold-colored icon isn't messed up.
 		TextColor color = TextColor.fromLegacyFormat(ChatFormatting.WHITE);
 
-		if (HighlighterConfig.INSTANCE.useItemNameColor.get())
+		if (HighlighterConfig.INSTANCE.useItemNameColor)
 		{
 			// Grab the item's color.  This should match the color of the item's name in the tooltip.
 			color = ItemColor.getColorForItem(item, color);
@@ -145,7 +144,7 @@ public class Highlighter
 
 		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
 		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
-		Gui.blit(poseStack, x, y, HighlighterConfig.INSTANCE.useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
+		Gui.blit(poseStack, x, y, HighlighterConfig.INSTANCE.useItemNameColor ? 8 : 0, 0, 8, 8, 16, 16);
 
 		poseStack.popPose();
 	}

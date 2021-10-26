@@ -2,7 +2,6 @@
 	"required": true,
 	"package": "com.anthonyhilyard.highlighter.mixin",
 	"compatibilityLevel": "JAVA_8",
-	"refmap": "highlighter.refmap.json",
 	"client": [
 		"AbstractContainerMenuMixin",
 		"AbstractContainerScreenMixin",
@@ -11,6 +10,6 @@
 	"injectors": {
 		"defaultRequire": 1
 	},
-	"minVersion": "0.8",
+	"minVersion": "0.8.2",
 	"target": "@env(DEFAULT)"
 }
