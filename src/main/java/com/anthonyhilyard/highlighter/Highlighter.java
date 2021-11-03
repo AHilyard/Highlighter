@@ -96,7 +96,7 @@ public class Highlighter implements ClientModInitializer
 				Slot slot = invScreen.hoveredSlot;
 				if (slot != null && slot.getItem() == stack)
 				{
-					markedSlots.remove(slot.index);
+					markedSlots.remove(slot.getContainerSlot());
 				}
 			}
 		}
@@ -107,14 +107,14 @@ public class Highlighter implements ClientModInitializer
 		Minecraft mc = Minecraft.getInstance();
 		if (!mc.player.isCreative())
 		{
-			if (markedSlots.contains(slot.index) && slot.hasItem())
+			if (markedSlots.contains(slot.getContainerSlot()) && slot.hasItem())
 			{
 				render(poseStack, slot.getItem(), slot.x, slot.y);
 			}
 			else
 			{
 				// If this slot doesn't contain a item, don't display a mark.
-				markedSlots.remove(slot.index);
+				markedSlots.remove(slot.getContainerSlot());
 			}
 		}
 	}
@@ -140,7 +140,7 @@ public class Highlighter implements ClientModInitializer
 		RenderSystem.disableDepthTest();
 
 		poseStack.pushPose();
-		poseStack.translate(0, -Easing.Ease(0, 1, timeOffset), 390);
+		poseStack.translate(0, -Easing.Ease(0, 1, timeOffset), 410);
 
 		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
 		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
