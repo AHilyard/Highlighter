@@ -48,7 +48,10 @@ public class Highlighter implements ClientModInitializer
 		Minecraft mc = Minecraft.getInstance();
 		Player player = mc.level.getPlayerByUUID(uuid);
 
-		handlePreItemPickup(player, itemStack);
+		if (player != null && player.equals(mc.player))
+		{
+			handlePreItemPickup(player, itemStack);
+		}
 	}
 
 	private static void handlePreItemPickup(Player player, ItemStack item)
