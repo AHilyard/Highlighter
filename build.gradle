@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 
 archivesBaseName = project.name + '-' + project.mcVersion
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 mixin {
 	add sourceSets.main, "${project.name.toLowerCase()}.refmap.json"
@@ -35,6 +35,8 @@ minecraft {
 			arg "-mixin.debug=true"
 			arg "-mixin.checks.interfaces=true"
 			arg "-mixin.config=${project.name}.mixins.json".toLowerCase()
+			property 'mixin.env.remapRefMap', 'true'
+			property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 		}
 	}
 }
@@ -50,8 +52,7 @@ dependencies {
 	minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
 	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
-	compileOnly 'curse.maven:iceberg-520110:3491123'
-	runtimeOnly 'curse.maven:iceberg-520110:3491123'
+	implementation fg.deobf('curse.maven:iceberg-520110:3549885')
 }
 
 jar {

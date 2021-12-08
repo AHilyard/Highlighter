@@ -36,19 +36,27 @@ public class Highlighter
 	@SubscribeEvent
 	public static void preItemPickup(EntityItemPickupEvent event)
 	{
+		Minecraft mc = Minecraft.getInstance();
 		Player player = event.getPlayer();
 		ItemStack item = event.getItem().getItem();
 		
-		handlePreItemPickup(player, item);
+		if (player != null && player.equals(mc.player))
+		{
+			handlePreItemPickup(player, item);
+		}
 	}
 
 	@SubscribeEvent
 	public static void newItemPickup(NewItemPickupEvent event)
 	{
+		Minecraft mc = Minecraft.getInstance();
 		Player player = event.getPlayer();
 		ItemStack item = event.getItemStack();
 
-		handlePreItemPickup(player, item);
+		if (player != null && player.equals(mc.player))
+		{
+			handlePreItemPickup(player, item);
+		}
 	}
 
 	private static void handlePreItemPickup(Player player, ItemStack item)
