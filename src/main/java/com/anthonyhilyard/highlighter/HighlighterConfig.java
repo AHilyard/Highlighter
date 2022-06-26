@@ -1,28 +1,36 @@
 package com.anthonyhilyard.highlighter;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
-import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
+import org.apache.commons.lang3.tuple.Pair;
 
-@Config(name = "highlighter")
-public class HighlighterConfig implements ConfigData
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+
+import com.electronwill.nightconfig.core.Config;
+
+public class HighlighterConfig
 {
-	@ConfigEntry.Gui.Excluded
-	public static HighlighterConfig INSTANCE;
-
-	public static void init()
+	public static final ForgeConfigSpec SPEC;
+	public static final HighlighterConfig INSTANCE;
+	static
 	{
-		AutoConfig.register(HighlighterConfig.class, JanksonConfigSerializer::new);
-		INSTANCE = AutoConfig.getConfigHolder(HighlighterConfig.class).getConfig();
+		Config.setInsertionOrderPreserved(true);
+		Pair<HighlighterConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(HighlighterConfig::new);
+		SPEC = specPair.getRight();
+		INSTANCE = specPair.getLeft();
 	}
 
-	@Comment("If new item markers should be cleared when the inventory is closed.")
-	public boolean clearOnInventoryClose = true;
-	@Comment("If new item markers should be cleared when the item tooltip is displayed.")
-	public boolean clearOnHover = true;
-	@Comment("If icons should match the color of items names (as shown in tooltips).  Otherwise icons will all be gold.")
-	public boolean useItemNameColor = false;
+	public final BooleanValue clearOnInventoryClose;
+	public final BooleanValue clearOnHover;
+	public final BooleanValue useItemNameColor;
+
+	public HighlighterConfig(ForgeConfigSpec.Builder build)
+	{
+		build.comment("Client Configuration").push("client").push("options");
+
+		clearOnInventoryClose = build.comment(" If new item markers should be cleared when the inventory is closed.").define("clear_on_close", true);
+		clearOnHover = build.comment(" If new item markers should be cleared when the item tooltip is displayed.").define("clear_on_hover", true);
+		useItemNameColor = build.comment(" If icons should match the color of items names (as shown in tooltips).  Otherwise icons will all be gold.").define("item_name_color", false);
+
+		build.pop().pop();
+	}
 }

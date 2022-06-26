@@ -28,6 +28,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 
+import net.minecraftforge.api.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
+
+
 public class Highlighter implements ClientModInitializer
 {
 	public static final ResourceLocation NEW_ITEM_MARKS = new ResourceLocation(Loader.MODID, "textures/gui/newitemmarks.png");
@@ -37,7 +41,7 @@ public class Highlighter implements ClientModInitializer
 	@Override
 	public void onInitializeClient()
 	{
-		HighlighterConfig.init();
+		ModLoadingContext.registerConfig(Loader.MODID, ModConfig.Type.COMMON, HighlighterConfig.SPEC);
 
 		NewItemPickupCallback.EVENT.register(Highlighter::newItemPickup);
 		ItemTooltipCallback.EVENT.register(Highlighter::onItemTooltip);
@@ -80,7 +84,7 @@ public class Highlighter implements ClientModInitializer
 
 	public static void inventoryClosed()
 	{
-		if (HighlighterConfig.INSTANCE.clearOnInventoryClose)
+		if (HighlighterConfig.INSTANCE.clearOnInventoryClose.get())
 		{
 			markedSlots.clear();
 		}
@@ -88,7 +92,7 @@ public class Highlighter implements ClientModInitializer
 
 	public static void onItemTooltip(ItemStack stack, TooltipFlag context, List<Component> lines)
 	{
-		if (HighlighterConfig.INSTANCE.clearOnHover)
+		if (HighlighterConfig.INSTANCE.clearOnHover.get())
 		{
 			// This event can be raised from any sort of tooltip, but we only care about item tooltips 
 			// when the inventory is open, so ensure that is the case.
@@ -134,7 +138,7 @@ public class Highlighter implements ClientModInitializer
 		// Default to white so the gold-colored icon isn't messed up.
 		TextColor color = TextColor.fromLegacyFormat(ChatFormatting.WHITE);
 
-		if (HighlighterConfig.INSTANCE.useItemNameColor)
+		if (HighlighterConfig.INSTANCE.useItemNameColor.get())
 		{
 			// Grab the item's color.  This should match the color of the item's name in the tooltip.
 			color = ItemColor.getColorForItem(item, color);
@@ -147,7 +151,7 @@ public class Highlighter implements ClientModInitializer
 
 		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
 		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
-		Gui.blit(poseStack, x, y, HighlighterConfig.INSTANCE.useItemNameColor ? 8 : 0, 0, 8, 8, 16, 16);
+		Gui.blit(poseStack, x, y, HighlighterConfig.INSTANCE.useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
 
 		poseStack.popPose();
 	}
