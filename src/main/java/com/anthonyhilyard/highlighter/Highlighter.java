@@ -37,7 +37,7 @@ public class Highlighter
 	public static void preItemPickup(EntityItemPickupEvent event)
 	{
 		Minecraft mc = Minecraft.getInstance();
-		Player player = event.getPlayer();
+		Player player = event.getEntity();
 		ItemStack item = event.getItem().getItem();
 		
 		if (player != null && player.equals(mc.player))
@@ -50,7 +50,7 @@ public class Highlighter
 	public static void newItemPickup(NewItemPickupEvent event)
 	{
 		Minecraft mc = Minecraft.getInstance();
-		Player player = event.getPlayer();
+		Player player = event.getEntity();
 		ItemStack item = event.getItemStack();
 
 		if (player != null && player.equals(mc.player))
@@ -124,6 +124,26 @@ public class Highlighter
 			{
 				// If this slot doesn't contain a item, don't display a mark.
 				markedSlots.remove(slot.getSlotIndex());
+			}
+		}
+	}
+
+	public static void renderHotBarItemMark(int slotIndex, PoseStack poseStack, ItemStack item, int x, int y)
+	{
+		if (!HighlighterConfig.INSTANCE.showOnHotbar.get())
+		{
+			return;
+		}
+
+		Minecraft mc = Minecraft.getInstance();
+		if (!mc.player.isCreative())
+		{
+			if (markedSlots.contains(slotIndex))
+			{
+				poseStack.pushPose();
+				poseStack.translate(0, 0, -100);
+				render(poseStack, item, x, y);
+				poseStack.popPose();
 			}
 		}
 	}

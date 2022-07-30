@@ -6,7 +6,8 @@
 	"client": [
 		"AbstractContainerMenuMixin",
 		"AbstractContainerScreenMixin",
-		"InventoryScreenMixin"
+		"InventoryScreenMixin",
+		"GuiMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
