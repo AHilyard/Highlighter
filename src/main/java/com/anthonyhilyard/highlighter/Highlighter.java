@@ -126,6 +126,26 @@ public class Highlighter implements ClientModInitializer
 		}
 	}
 
+	public static void renderHotBarItemMark(int slotIndex, PoseStack poseStack, ItemStack item, int x, int y)
+	{
+		if (!HighlighterConfig.INSTANCE.showOnHotbar.get())
+		{
+			return;
+		}
+
+		Minecraft mc = Minecraft.getInstance();
+		if (!mc.player.isCreative())
+		{
+			if (markedSlots.contains(slotIndex))
+			{
+				poseStack.pushPose();
+				poseStack.translate(0, 0, -100);
+				render(poseStack, item, x, y);
+				poseStack.popPose();
+			}
+		}
+	}
+
 	private static void render(PoseStack poseStack, ItemStack item, int x, int y)
 	{
 		if (item.isEmpty())

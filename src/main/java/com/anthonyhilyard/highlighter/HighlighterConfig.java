@@ -22,6 +22,7 @@ public class HighlighterConfig
 	public final BooleanValue clearOnInventoryClose;
 	public final BooleanValue clearOnHover;
 	public final BooleanValue useItemNameColor;
+	public final BooleanValue showOnHotbar;
 
 	public HighlighterConfig(ForgeConfigSpec.Builder build)
 	{
@@ -30,6 +31,7 @@ public class HighlighterConfig
 		clearOnInventoryClose = build.comment(" If new item markers should be cleared when the inventory is closed.").define("clear_on_close", true);
 		clearOnHover = build.comment(" If new item markers should be cleared when the item tooltip is displayed.").define("clear_on_hover", true);
 		useItemNameColor = build.comment(" If icons should match the color of items names (as shown in tooltips).  Otherwise icons will all be gold.").define("item_name_color", false);
+		showOnHotbar = build.comment(" If new item markers should show on the hotbar.").define("show_on_hotbar", true);
 
 		build.pop().pop();
 	}

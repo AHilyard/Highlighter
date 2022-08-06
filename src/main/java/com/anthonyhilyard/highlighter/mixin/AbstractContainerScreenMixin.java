@@ -25,7 +25,7 @@ public class AbstractContainerScreenMixin extends Screen
 			shift = Shift.AFTER))
 	public void renderSlot(PoseStack poseStack, Slot slot, CallbackInfo info)
 	{
-		// Only mark items that are in the player's inventory and hotbar.
+		// Only mark items that are in the player's inventory.
 		if (slot.container instanceof Inventory)
 		{
 			if (slot.hasItem() && ((Inventory)slot.container).items.contains(slot.getItem()))
