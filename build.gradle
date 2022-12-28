@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 
-archivesBaseName = project.name + '-' + project.mcVersion
+archivesBaseName = project.name + '-' + project.mcVersion + '-forge'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 

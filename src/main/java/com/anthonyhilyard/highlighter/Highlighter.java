@@ -26,6 +26,7 @@ import java.util.Set;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+@SuppressWarnings("null")
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class Highlighter
 {
@@ -99,9 +100,8 @@ public class Highlighter
 			// This event can be raised from any sort of tooltip, but we only care about item tooltips 
 			// when the inventory is open, so ensure that is the case.
 			Minecraft mc = Minecraft.getInstance();
-			if (mc.screen != null && mc.screen instanceof AbstractContainerScreen)
+			if (mc.screen != null && mc.screen instanceof AbstractContainerScreen<?> invScreen)
 			{
-				AbstractContainerScreen<?> invScreen = (AbstractContainerScreen<?>)mc.screen;
 				Slot slot = invScreen.getSlotUnderMouse();
 				if (slot != null && slot.getItem() == event.getItemStack())
 				{
