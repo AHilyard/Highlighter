@@ -1,14 +1,24 @@
 package com.anthonyhilyard.highlighter;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.Pair;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.IConfigEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import com.electronwill.nightconfig.core.Config;
+import com.google.common.collect.Maps;
 
+@EventBusSubscriber(modid = Loader.MODID, bus = Bus.MOD)
 public class HighlighterConfig
 {
 	public static final ForgeConfigSpec SPEC;
@@ -26,6 +36,8 @@ public class HighlighterConfig
 	public final BooleanValue useItemNameColor;
 	public final BooleanValue showOnHotbar;
 
+	private static Map<Pair<Item, CompoundTag>, TextColor> colorCache = Maps.newHashMap();
+
 	public HighlighterConfig(ForgeConfigSpec.Builder build)
 	{
 		build.comment("Client Configuration").push("client").push("options");
@@ -38,8 +50,26 @@ public class HighlighterConfig
 		build.pop().pop();
 	}
 
-	@SubscribeEvent
-	public static void onLoad(IConfigEvent e)
+	@SuppressWarnings({"deprecation", "removal"})
+	public static TextColor getColorForItem(ItemStack itemStack, TextColor defaultColor)
 	{
+		Pair<Item, CompoundTag> key = Pair.of(itemStack.getItem(), itemStack.getTag());
+		if (!colorCache.containsKey(key))
+		{
+			TextColor color = com.anthonyhilyard.iceberg.util.ItemColor.getColorForItem(itemStack, defaultColor);
+			colorCache.put(key, color);
+		}
+
+		return colorCache.get(key);
+	}
+
+	@SubscribeEvent
+	public static void onReload(ModConfigEvent.Reloading e)
+	{
+		if (e.getConfig().getModId().equals(Loader.MODID))
+		{
+			// Clear the color cache if the config changes.
+			colorCache.clear();
+		}
 	}
 }

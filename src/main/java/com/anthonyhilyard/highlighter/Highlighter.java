@@ -1,6 +1,5 @@
 package com.anthonyhilyard.highlighter;
 
-import com.anthonyhilyard.iceberg.util.ItemColor;
 import com.anthonyhilyard.iceberg.util.Easing;
 import com.anthonyhilyard.iceberg.events.NewItemPickupEvent;
 
@@ -163,7 +162,7 @@ public class Highlighter
 		if (HighlighterConfig.INSTANCE.useItemNameColor.get())
 		{
 			// Grab the item's color.  This should match the color of the item's name in the tooltip.
-			color = ItemColor.getColorForItem(item, color);
+			color = HighlighterConfig.getColorForItem(item, color);
 		}
 
 		RenderSystem.disableDepthTest();
