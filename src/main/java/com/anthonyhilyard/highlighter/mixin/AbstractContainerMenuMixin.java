@@ -13,8 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(AbstractContainerMenu.class)
 public class AbstractContainerMenuMixin
 {
-	@Inject(method = { "doClick(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V" },
-			at = { @At("HEAD") })
+	@Inject(method = "doClick(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V", at = @At("HEAD"))
 	public void doClick(final int slotIndex, final int mask, final ClickType clickType, final Player player, final CallbackInfo info)
 	{
 		if ((Object)this instanceof InventoryMenu)

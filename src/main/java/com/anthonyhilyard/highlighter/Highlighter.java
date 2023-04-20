@@ -1,6 +1,5 @@
 package com.anthonyhilyard.highlighter;
 
-import com.anthonyhilyard.iceberg.util.ItemColor;
 import com.anthonyhilyard.iceberg.util.Easing;
 import com.anthonyhilyard.iceberg.events.NewItemPickupCallback;
 
@@ -28,8 +27,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 
-import net.minecraftforge.api.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 
 
 public class Highlighter implements ClientModInitializer
@@ -41,7 +41,7 @@ public class Highlighter implements ClientModInitializer
 	@Override
 	public void onInitializeClient()
 	{
-		ModLoadingContext.registerConfig(Loader.MODID, ModConfig.Type.COMMON, HighlighterConfig.SPEC);
+		ForgeConfigRegistry.INSTANCE.register(Loader.MODID, ModConfig.Type.COMMON, HighlighterConfig.SPEC);
 
 		NewItemPickupCallback.EVENT.register(Highlighter::newItemPickup);
 		ItemTooltipCallback.EVENT.register(Highlighter::onItemTooltip);
@@ -161,7 +161,7 @@ public class Highlighter implements ClientModInitializer
 		if (HighlighterConfig.INSTANCE.useItemNameColor.get())
 		{
 			// Grab the item's color.  This should match the color of the item's name in the tooltip.
-			color = ItemColor.getColorForItem(item, color);
+			color = HighlighterConfig.getColorForItem(item, color);
 		}
 
 		RenderSystem.disableDepthTest();

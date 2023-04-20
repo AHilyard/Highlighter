@@ -28,7 +28,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loaderVersion}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricVersion}"
 	
-	modImplementation "net.minecraftforge:forgeconfigapiport-fabric:${forgeConfigApiVersion}"
+	modImplementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forgeConfigApiVersion}"
 	modImplementation "curse.maven:iceberg-539382:3832794"
 }
 

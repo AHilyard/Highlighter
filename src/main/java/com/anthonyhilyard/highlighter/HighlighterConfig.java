@@ -1,11 +1,21 @@
 package com.anthonyhilyard.highlighter;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.Pair;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.fml.config.ModConfig;
 
 import com.electronwill.nightconfig.core.Config;
+import com.google.common.collect.Maps;
+
+import fuzs.forgeconfigapiport.api.config.v2.ModConfigEvents;
 
 public class HighlighterConfig
 {
@@ -24,8 +34,12 @@ public class HighlighterConfig
 	public final BooleanValue useItemNameColor;
 	public final BooleanValue showOnHotbar;
 
+	private static Map<Pair<Item, CompoundTag>, TextColor> colorCache = Maps.newHashMap();
+
 	public HighlighterConfig(ForgeConfigSpec.Builder build)
 	{
+		ModConfigEvents.reloading(Loader.MODID).register(HighlighterConfig::onReload);
+
 		build.comment("Client Configuration").push("client").push("options");
 
 		clearOnInventoryClose = build.comment(" If new item markers should be cleared when the inventory is closed.").define("clear_on_close", true);
@@ -34,5 +48,26 @@ public class HighlighterConfig
 		showOnHotbar = build.comment(" If new item markers should show on the hotbar.").define("show_on_hotbar", true);
 
 		build.pop().pop();
+	}
+
+	public static TextColor getColorForItem(ItemStack itemStack, TextColor defaultColor)
+	{
+		Pair<Item, CompoundTag> key = Pair.of(itemStack.getItem(), itemStack.getTag());
+		if (!colorCache.containsKey(key))
+		{
+			TextColor color = com.anthonyhilyard.iceberg.util.ItemColor.getColorForItem(itemStack, defaultColor);
+			colorCache.put(key, color);
+		}
+
+		return colorCache.get(key);
+	}
+
+	public static void onReload(ModConfig config)
+	{
+		if (config.getModId().equals(Loader.MODID))
+		{
+			// Clear the color cache if the config changes.
+			colorCache.clear();
+		}
 	}
 }
