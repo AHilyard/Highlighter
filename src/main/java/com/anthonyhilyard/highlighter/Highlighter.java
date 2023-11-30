@@ -78,9 +78,14 @@ public class Highlighter
 		}
 	}
 
-	public static void itemClicked(final int slotIndex)
+	public static void clearMark(final int slotIndex)
 	{
 		markedSlots.remove(slotIndex);
+	}
+
+	public static void itemClicked(final int slotIndex)
+	{
+		clearMark(slotIndex);
 	}
 
 	public static void inventoryClosed()
@@ -104,7 +109,7 @@ public class Highlighter
 				Slot slot = invScreen.getSlotUnderMouse();
 				if (slot != null && slot.getItem() == event.getItemStack())
 				{
-					markedSlots.remove(slot.getSlotIndex());
+					clearMark(slot.getSlotIndex());
 				}
 			}
 		}
@@ -122,7 +127,7 @@ public class Highlighter
 			else
 			{
 				// If this slot doesn't contain a item, don't display a mark.
-				markedSlots.remove(slot.getSlotIndex());
+				clearMark(slot.getSlotIndex());
 			}
 		}
 	}
