@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[45,)"
+loaderVersion="[46,)"
 license="CC BY-NC-ND 4.0"
 
 [[mods]]
@@ -15,20 +15,20 @@ description="Highlights newly picked-up items in your inventory."
 [[dependencies.highlighter]]
 	modId="forge"
 	mandatory=true
-	versionRange="[45,)"
+	versionRange="[46,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.highlighter]]
 	modId="minecraft"
 	mandatory=true
-	versionRange="[1.19.4]"
+	versionRange="[1.20,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.highlighter]]
 	modId="iceberg"
 	mandatory=true
-	versionRange="[1.1.8,)"
+	versionRange="[1.1.13,)"
 	ordering="NONE"
 	side="BOTH"

@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -31,10 +32,19 @@ public class HighlighterConfig
 		INSTANCE = specPair.getLeft();
 	}
 
+	public enum IconPosition
+	{
+		UpperLeft,
+		UpperRight,
+		LowerLeft,
+		LowerRight
+	}
+
 	public final BooleanValue clearOnInventoryClose;
 	public final BooleanValue clearOnHover;
 	public final BooleanValue useItemNameColor;
 	public final BooleanValue showOnHotbar;
+	public final ConfigValue<IconPosition> iconPosition;
 
 	private static Map<Pair<Item, CompoundTag>, TextColor> colorCache = Maps.newHashMap();
 
@@ -46,11 +56,12 @@ public class HighlighterConfig
 		clearOnHover = build.comment(" If new item markers should be cleared when the item tooltip is displayed.").define("clear_on_hover", true);
 		useItemNameColor = build.comment(" If icons should match the color of items names (as shown in tooltips).  Otherwise icons will all be gold.").define("item_name_color", false);
 		showOnHotbar = build.comment(" If new item markers should show on the hotbar.").define("show_on_hotbar", true);
+		iconPosition = build.comment(" The position of new item markers.").defineEnum("icon_position", IconPosition.UpperLeft);
 
 		build.pop().pop();
 	}
 
-	@SuppressWarnings({"deprecation", "removal"})
+	@SuppressWarnings({"removal"})
 	public static TextColor getColorForItem(ItemStack itemStack, TextColor defaultColor)
 	{
 		Pair<Item, CompoundTag> key = Pair.of(itemStack.getItem(), itemStack.getTag());
