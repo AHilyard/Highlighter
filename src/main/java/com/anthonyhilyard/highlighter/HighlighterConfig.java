@@ -50,6 +50,7 @@ public class HighlighterConfig
 		build.pop().pop();
 	}
 
+	@SuppressWarnings({"deprecation", "removal"})
 	public static TextColor getColorForItem(ItemStack itemStack, TextColor defaultColor)
 	{
 		Pair<Item, CompoundTag> key = Pair.of(itemStack.getItem(), itemStack.getTag());

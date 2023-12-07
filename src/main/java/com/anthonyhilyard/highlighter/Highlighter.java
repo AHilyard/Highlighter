@@ -1,11 +1,11 @@
 package com.anthonyhilyard.highlighter;
 
 import com.anthonyhilyard.iceberg.util.Easing;
+import com.anthonyhilyard.iceberg.util.GuiHelper;
 import com.anthonyhilyard.iceberg.events.NewItemPickupCallback;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -171,7 +171,7 @@ public class Highlighter implements ClientModInitializer
 
 		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
 		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
-		Gui.blit(poseStack, x, y, HighlighterConfig.INSTANCE.useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
+		GuiHelper.blit(poseStack, x, y, 8, 8, HighlighterConfig.INSTANCE.useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		poseStack.popPose();
