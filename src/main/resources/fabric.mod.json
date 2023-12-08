@@ -29,12 +29,12 @@
 	],
 
 	"depends": {
-		"fabricloader": ">=0.14.19",
+		"fabricloader": ">=0.15.0",
 		"fabric": "*",
-		"minecraft": "~1.20",
+		"minecraft": ">=1.20.2",
 		"java": ">=17",
-		"forgeconfigapiport": ">=7.0",
-		"iceberg": ">=1.1.13"
+		"forgeconfigapiport": ">=9.1",
+		"iceberg": ">=1.1.16"
 	},
 	"custom": {
 		"modupdater": {

@@ -77,9 +77,14 @@ public class Highlighter implements ClientModInitializer
 		}
 	}
 
-	public static void itemClicked(final int slotIndex)
+	public static void clearMark(final int slotIndex)
 	{
 		markedSlots.remove(slotIndex);
+	}
+
+	public static void itemClicked(final int slotIndex)
+	{
+		clearMark(slotIndex);
 	}
 
 	public static void inventoryClosed()
@@ -103,7 +108,7 @@ public class Highlighter implements ClientModInitializer
 				Slot slot = invScreen.hoveredSlot;
 				if (slot != null && slot.getItem() == stack)
 				{
-					markedSlots.remove(slot.getContainerSlot());
+					clearMark(slot.getContainerSlot());
 				}
 			}
 		}
@@ -121,7 +126,7 @@ public class Highlighter implements ClientModInitializer
 			else
 			{
 				// If this slot doesn't contain a item, don't display a mark.
-				markedSlots.remove(slot.getContainerSlot());
+				clearMark(slot.getContainerSlot());
 			}
 		}
 	}
@@ -171,6 +176,23 @@ public class Highlighter implements ClientModInitializer
 
 		RenderSystem.setShaderTexture(0, NEW_ITEM_MARKS);
 		RenderSystem.setShaderColor((color.getValue() >> 16 & 255) / 255.0f, (color.getValue() >> 8 & 255) / 255.0f, (color.getValue() & 255) / 255.0f, 1.0f);
+
+		switch (HighlighterConfig.INSTANCE.iconPosition.get())
+		{
+			default:
+			case UpperLeft:
+				break;
+			case UpperRight:
+				x += 8;
+				break;
+			case LowerLeft:
+				y += 8;
+				break;
+			case LowerRight:
+				x += 8;
+				y += 8;
+				break;
+		}
 		GuiHelper.blit(poseStack, x, y, 8, 8, HighlighterConfig.INSTANCE.useItemNameColor.get() ? 8 : 0, 0, 8, 8, 16, 16);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
