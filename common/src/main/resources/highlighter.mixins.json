@@ -5,7 +5,7 @@
 	"client": [
 		"AbstractContainerMenuMixin",
 		"AbstractRecipeBookScreenMixin",
-		"GuiMixin"
+		"HudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

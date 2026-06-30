@@ -15,21 +15,21 @@ description="Highlights newly picked-up items in your inventory."
 [[dependencies.highlighter]]
 	modId="neoforge"
 	type="required"
-	versionRange="[26.1,)"
+	versionRange="[26.2,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.highlighter]]
 	modId="minecraft"
 	type="required"
-	versionRange="[26.1,)"
+	versionRange="[26.2,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.highlighter]]
 	modId="iceberg"
 	type="required"
-	versionRange="[1.4.1,)"
+	versionRange="[1.4.2,)"
 	ordering="AFTER"
 	side="BOTH"
 

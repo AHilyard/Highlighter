@@ -33,7 +33,7 @@ subprojects {
 	dependencies {
 		minecraft "net.minecraft:minecraft:$rootProject.minecraftVersion"
 
-		compileOnly files("../libs/Iceberg-26.1.2-common-1.4.1.jar")
+		compileOnly files("../libs/Iceberg-26.2-common-1.4.2.jar")
 	}
 
 	java {

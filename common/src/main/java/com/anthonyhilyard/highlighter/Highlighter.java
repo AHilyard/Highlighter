@@ -99,9 +99,9 @@ public class Highlighter
 			// This event can be raised from any sort of tooltip, but we only care about item tooltips 
 			// when the inventory is open, so ensure that is the case.
 			Minecraft mc = Minecraft.getInstance();
-			if (mc.screen != null && mc.screen instanceof AbstractContainerScreen)
+			if (mc.gui.screen() != null && mc.gui.screen() instanceof AbstractContainerScreen)
 			{
-				AbstractContainerScreen<?> invScreen = (AbstractContainerScreen<?>)mc.screen;
+				AbstractContainerScreen<?> invScreen = (AbstractContainerScreen<?>)mc.gui.screen();
 				Slot slot = invScreen.hoveredSlot;
 				if (slot != null && slot.getItem() == stack)
 				{
