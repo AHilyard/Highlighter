@@ -8,28 +8,28 @@ version="${version}"
 displayName="Highlighter"
 displayURL="https://anthonyhilyard.com/"
 updateJSONURL="https://mc-update-check.anthonyhilyard.com/521590"
-logoFile="icon.png"
+iconFile="icon.png"
 authors="Grend, Mat0u5"
 description="Highlights newly picked-up items in your inventory."
 
 [[dependencies.highlighter]]
 	modId="neoforge"
 	type="required"
-	versionRange="[26.2,)"
+	versionRange="[26.3,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.highlighter]]
 	modId="minecraft"
 	type="required"
-	versionRange="[26.2,)"
+	versionRange="[26.3,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.highlighter]]
 	modId="iceberg"
 	type="required"
-	versionRange="[1.4.2,)"
+	versionRange="[1.4.3,)"
 	ordering="AFTER"
 	side="BOTH"
 

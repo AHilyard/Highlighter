@@ -32,7 +32,7 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:$rootProject.fabricLoaderVersion"
 	implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabricVersion"
 
-	runtimeOnly files("../libs/Iceberg-26.2-fabric-1.4.2.jar")
+	runtimeOnly files("../libs/Iceberg-26.3-fabric-1.4.3.jar")
 
 	common(project(path: ":common")) { transitive false }
 	shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
