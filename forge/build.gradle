@@ -27,7 +27,7 @@ configurations {
 dependencies {
 	forge "net.minecraftforge:forge:$rootProject.forgeVersion"
 
-	runtimeOnly files("../libs/Iceberg-26.2-forge-1.4.2.jar")
+	runtimeOnly files("../libs/Iceberg-26.3-forge-1.4.3.jar")
 
 	common(project(path: ":common")) { transitive false }
 	shadowBundle project(path: ':common', configuration: 'transformProductionForge')
